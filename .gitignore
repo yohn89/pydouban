@@ -1,0 +1,16 @@
+pydouban.egg-info
+test/configs.py
+scripts/*
+build
+dist
+
+*.db
+*.pyc
+*.db
+.DS_Store
+*.tmp
+*.log
+*.jpg
+*.swp
+*.swo
+*.swn
