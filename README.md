@@ -1,4 +1,5 @@
 # pydouban
+A simple python libary for douban.com that contains some basic functions 
 
 #Install
 ``` 
