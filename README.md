@@ -1,8 +1,10 @@
 # pydouban
 
 #Install
-``` git clone https://github.com/tianyu0915/pydouban.git```
-``` cd pydouban && python setup.py install ```
+``` 
+git clone https://github.com/tianyu0915/pydouban.git
+cd pydouban && python setup.py install 
+```
 
 # Useage
 ```
