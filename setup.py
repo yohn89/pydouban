@@ -10,7 +10,7 @@ setup(name='pydouban',
       keywords ='douban,libary',
       url='http://github.com/tianyu0915/pydouban',  
       packages=['pydouban'],  
-      install_requires = ['requests==0.13.1'],
+      install_requires = ['requests==0.13.1','lxml>=2.3.4'],
       license = open('LICENSE').read(),
 
 )  
