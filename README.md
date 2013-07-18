@@ -11,8 +11,9 @@ cd pydouban && python setup.py install
 ```
 from pydouban.client  import DoubanClient
 client = DoubanClient('your account','your password')
-url,title  = client.get_topics()[0]
-client.reply_topic(url,content='hello world')
+if client.login():
+    url,title  = client.get_topics()[0]
+    client.reply_topic(url,content='hello world')
 
 ```
 
