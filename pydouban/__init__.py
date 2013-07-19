@@ -17,5 +17,5 @@
 # -*- coding: utf-8 -*-
 
 __author__  = 'TY<tianyu0915@gmail.com>'
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 
