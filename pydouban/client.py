@@ -46,28 +46,28 @@ class DoubanClient():
 
         return 'nav-user-account' in html
 
-#    def login_with_captcha(self,captcha):
-#        form_data = self.login_form_data
-#        form_data['captcha-solution'] = captcha
-#
-#        html = self.http.post('https://www.douban.com/accounts/login',form_data)
-#        if not html:
-#            raise LoginError('http response is empty!')
-#
-#        tree = lxml.html.fromstring(html)
-#        try:
-#            message = tree.xpath('.//p[@class="error"]')[0].text
-#        except:
-#            pass
-#        else:
-#            with open('error.html','wb') as f:
-#                f.write(html)
-#            raise LoginError(message)
-#        
-#        if self.is_loggedin(html):
-#            self.http.save_session()
-#            return True
-#        return False
+    def login_with_captcha(self,captcha):
+        form_data = self.login_form_data
+        form_data['captcha-solution'] = captcha
+
+        html = self.http.post('https://www.douban.com/accounts/login',form_data)
+        if not html:
+            raise LoginError('http response is empty!')
+
+        tree = lxml.html.fromstring(html)
+        try:
+            message = tree.xpath('.//p[@class="error"]')[0].text
+        except:
+            pass
+        else:
+            with open('error.html','wb') as f:
+                f.write(html)
+            raise LoginError(message)
+        
+        if self.is_loggedin(html):
+            self.http.save_session()
+            return True
+        return False
 
     def login(self):
         """ Start login account. 
@@ -145,19 +145,23 @@ class DoubanClient():
 
         return results
 
-#    def reply_doumail(self,url,content):
-#        html = self.http.get(url)
-#        if not self.is_loggedin(html):
-#            self.login()
-#            return False
-#
-#        tree = lxml.html.fromstring(html)
-#
-#        form_data = {}
-#        form_data['m_text'] = content
-#        form_data['ck'] = tree.xpath('.//form//input[@name="ck"]')[0].get('value')
-#        form_data['action'] = 'm_reply'
-#
+    def reply_doumail(self,url,content):
+        html = self.http.get(url)
+        if not self.is_loggedin(html):
+            self.login()
+            return False
+
+        tree = lxml.html.fromstring(html)
+        form_data = {}
+        form_data['m_text'] = content
+        form_data['ck'] = tree.xpath('.//form//input[@name="ck"]')[0].get('value')
+        form_data['action'] = 'm_reply'
+        form_data['captcha-id'] = ''
+        form_data['captcha-solution'] = ''
+
+        html = self.http.post(url,form_data)
+        if html:
+            return True
 
     def get_topics(self,url='http://www.douban.com/group/',is_new=False):
         """ Return a list that contains url and title
