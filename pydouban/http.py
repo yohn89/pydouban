@@ -80,7 +80,10 @@ class HttpHanlder:
         """ Return a `shelve` object 
         
         """
-        return shelve.open('tmp')
+        try:
+            return shelve.open('/usr/lib/var/pydouban_session')
+        except:
+            return shelve.open('pydouban_session')
 
     def clear_tmp_db(self):
         """ Remove db file 
