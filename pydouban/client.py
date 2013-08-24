@@ -46,30 +46,7 @@ class DoubanClient():
 
         return 'nav-user-account' in html
 
-    def login_with_captcha(self,captcha):
-        form_data = self.login_form_data
-        form_data['captcha-solution'] = captcha
-
-        html = self.http.post('https://www.douban.com/accounts/login',form_data)
-        if not html:
-            raise LoginError('http response is empty!')
-
-        tree = lxml.html.fromstring(html)
-        try:
-            message = tree.xpath('.//p[@class="error"]')[0].text
-        except:
-            pass
-        else:
-            with open('error.html','wb') as f:
-                f.write(html)
-            raise LoginError(message)
-        
-        if self.is_loggedin(html):
-            self.http.save_session()
-            return True
-        return False
-
-    def login(self):
+    def login(self,expect_captcha=False):
         """ Start login account. 
 
         Raise `LoginException` if can not login
@@ -101,8 +78,10 @@ class DoubanClient():
             pass
         else:
             captcha_url = 'http://www.douban.com/misc/captcha?id={0}&size=s'.format(form_data['captcha-id'])
-            self.login_form_data = form_data
-            raise NeedCaptcha(captcha_url)
+            if expect_captcha:
+                form_data['captcha-solution'] = raw_input('input captcha words on this image ( {} ) :'.format(captcha_url))
+            else:
+                raise NeedCaptcha(captcha_url)
 
         html = self.http.post('https://www.douban.com/accounts/login',form_data)
         if not html:
@@ -110,10 +89,12 @@ class DoubanClient():
 
         tree = lxml.html.fromstring(html)
         try:
-            message = tree.xpath('.//p[@class="error"]')[0].text_content()
+            message = tree.xpath('.//p[@class="error"]')[0].text
         except:
             pass
         else:
+            with open('/tmp/after_login_douban.html','wb') as f:
+                f.write(html)
             raise LoginError(message)
         
         if self.is_loggedin(html):
