@@ -234,3 +234,20 @@ class DoubanClient():
         return False
         
 
+    def say(self,text):
+        """  发送广播
+
+        """
+        url = 'http://www.douban.com'
+        html = self.http.get(url)
+        tree = lxml.html.fromstring(html)
+
+        def get_value(name,default=None):
+            return tree.xpath('.//input[@name="{0}"]'.format(name))[0].get('value',default)
+
+        form_data = {}
+        form_data['ck'] = get_value('ck')
+        form_data['comment'] = text
+        html = self.http.post(url,form_data)
+        return text in html
+
