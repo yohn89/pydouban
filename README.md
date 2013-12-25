@@ -5,9 +5,16 @@ A simple python libary for douban.com that contains some basic functions
 ``` 
 git clone https://github.com/tianyu0915/pydouban.git
 cd pydouban && python setup.py install 
+
+or
+
+pip install pydouban
+
+easy_install pydouban
+
 ```
 
-# Useage
+# Usage
 ```
 from pydouban.client  import DoubanClient
 client = DoubanClient('your account','your password')
