@@ -30,6 +30,7 @@ class HttpHanlder:
     def __init__(self,headers=None,session_key='new_session'):
         self.headers = headers
         self.session_key = md5(session_key).hexdigest()
+        self._session_db_file_path = '/tmp/pydouban_session.db'
 
     def _get_session(self):
         """ Get requests session form  a db file
@@ -80,14 +81,14 @@ class HttpHanlder:
         """ Return a `shelve` object 
         
         """
-        return shelve.open('/usr/local/var/pydouban_session')
+        return shelve.open(self._session_db_file_path)
 
     def clear_tmp_db(self):
         """ Remove db file 
 
         """
         try:
-            os.remove('tmp.db')
+            os.remove(self._session_db_file_path)
         except:
             pass
 
