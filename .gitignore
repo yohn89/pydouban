@@ -1,5 +1,5 @@
 pydouban.egg-info
-tests/configs.py
+tests
 scripts/*
 build
 dist
