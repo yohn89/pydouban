@@ -31,6 +31,7 @@ class HttpHanlder:
         self.headers = headers
         self.session_key = md5(session_key).hexdigest()
         self._session_db_file_path = '/tmp/pydouban_session.db'
+        self.timeout = 1
 
     def _get_session(self):
         """ Get requests session form  a db file
@@ -53,7 +54,7 @@ class HttpHanlder:
         self.br = self._get_session()
         try:
             if method.lower() == 'get':
-                html  = self.br.get(url,params=data).content
+                html  = self.br.get(url,params=data,timeout=self.timeout).content
             elif method.lower() == 'post':
                 html = self.br.post(url,data=data,verify=True).content
         except (socket.timeout,requests.exceptions.Timeout):
